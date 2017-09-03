@@ -1,0 +1,28 @@
+h1{
+	color:#0000FF;
+}
+
+h2{
+	color:#FF0000;
+}
+
+footer{
+    margin-top:60px;
+}
+
+#header {
+    font-family:Verdana;
+    font-size:200px;
+    font-weight:100;
+    -webkit-text-stroke-color: rgba(255,255,255,1);
+    -webkit-text-stroke-width: 1px;
+    -webkit-font-smoothing: antialiased;
+}
+#description {
+    font-family:Verdana;
+    font-size:40px;
+    font-weight:100;
+    -webkit-text-stroke-color: rgba(255,255,255,1);
+    -webkit-text-stroke-width: 1px;
+    -webkit-font-smoothing: antialiased;
+}

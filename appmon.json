@@ -1,0 +1,10 @@
+{
+ "description":"app mon local",
+ "debug":true,
+ "services":[
+   {"name":"Apache","port":80},
+   {"name":"Tomgato","port":8080},
+   {"name":"MySQL","port":3306},
+   {"name":"Teste","port":19999}
+ ]
+}
