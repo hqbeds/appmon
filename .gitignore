@@ -11,6 +11,9 @@
 .mtj.tmp/
 target/
 bin/
+.settings
+.project
+.classpath
 
 # Package Files #
 *.jar
