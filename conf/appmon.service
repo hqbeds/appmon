@@ -1,0 +1,9 @@
+[Unit]
+Description=appmon
+After=syslog.target
+
+[Service]
+ExecStart=/opt/appmon/appmon.jar --server.port=34567
+
+[Install]
+WantedBy=multi-user.target

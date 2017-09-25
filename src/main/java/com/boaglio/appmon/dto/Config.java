@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Config implements Serializable {
 
-	private static final long serialVersionUID = 1297479827022295470L;
+	private static final long serialVersionUID = -8517384012883814458L;
 
 	private static Config instance = new Config();
 
@@ -18,6 +18,8 @@ public class Config implements Serializable {
 	}
 
 	private Config() {}
+
+	private Integer retentionSize;
 
 	private String description;
 
@@ -47,6 +49,14 @@ public class Config implements Serializable {
 
 	public void setDebug(Boolean debug) {
 		this.debug = debug;
+	}
+
+	public Integer getRetentionSize() {
+		return retentionSize;
+	}
+
+	public void setRetentionSize(Integer retentionSize) {
+		this.retentionSize = retentionSize;
 	}
 
 	@Override

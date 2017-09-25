@@ -1,5 +1,6 @@
 package com.boaglio.appmon.domain;
 
+import com.boaglio.appmon.util.FormatUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,16 +24,24 @@ public class Partition {
 		return name;
 	}
 
-	public long getTotalSpace() {
-		return totalSpace;
+	public String getTotalSpace() {
+		return FormatUtil.humanReadableByteCount(totalSpace);
 	}
 
-	public long getUsabledSpace() {
-		return usabledSpace;
+	public String getUsabledSpace() {
+		return FormatUtil.humanReadableByteCount(usabledSpace);
 	}
 
-	public long getUsedSpace() {
-		return usedSpace;
+	public int getUsabledSpacePercent() {
+		return (int) (usabledSpace * 100 / totalSpace);
+	}
+
+	public String getUsedSpace() {
+		return FormatUtil.humanReadableByteCount(usedSpace);
+	}
+
+	public int getUsedSpacePercent() {
+		return (int) (usedSpace * 100 / totalSpace);
 	}
 
 }

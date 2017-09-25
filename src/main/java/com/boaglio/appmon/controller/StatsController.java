@@ -1,10 +1,16 @@
 package com.boaglio.appmon.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boaglio.appmon.dto.FullStats;
+import com.boaglio.appmon.dto.ServiceStats;
+import com.boaglio.appmon.dto.ServiceStatsWithTime;
 import com.boaglio.appmon.dto.Stats;
 import com.boaglio.appmon.util.FileSystemUtil;
 
@@ -20,20 +26,24 @@ public class StatsController {
 		this.fullStats = fullStats;
 	}
 
-	@GetMapping("/stats-online")
-	public Stats statsOnline() {
-		Stats stats = new Stats();
-		stats.setFileSystem(fileSystemUtil.refresh());
-		return stats;
-	}
+	@GetMapping("/stats/{service}")
+	public List<ServiceStatsWithTime> statsByService(@PathVariable("service") String service) {
 
-	@GetMapping("/stats-full")
-	public FullStats statsFull() {
-		return fullStats;
+		List<ServiceStatsWithTime> list = new ArrayList<ServiceStatsWithTime>();
+		for (Stats s : fullStats.getAllStats()) {
+			for (ServiceStats ss : s.getServiceStats()) {
+				if (ss.getService().getName().equalsIgnoreCase(service)) {
+					list.add(new ServiceStatsWithTime(ss.getService(),ss.getStatus(),s.getDate()));
+				}
+			}
+		}
+		return list;
 	}
 
 	@GetMapping("/stats")
 	public Stats stats() {
-		return fullStats.getLastStats();
+		Stats stats = fullStats.getLastStats();
+		stats.setFileSystem(fileSystemUtil.refresh());
+		return stats;
 	}
 }

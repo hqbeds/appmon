@@ -1,6 +1,7 @@
 {
  "description":"app mon local",
- "debug":true,
+ "debug":false,
+ "retentionSize":3,
  "services":[
    {"name":"Apache","port":80},
    {"name":"Tomgato","port":8080},

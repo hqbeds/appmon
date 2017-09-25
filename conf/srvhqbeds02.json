@@ -1,0 +1,13 @@
+{
+ "description":"srvhqbeds02", 
+ "debug":false,
+ "retentionSize":20,
+ "services":[
+   {"name":"Apache HTTP","port":80},
+   {"name":"Apache HTTPS","port":443},
+   {"name":"Net","port":2288}, 
+   {"name":"JIRA","port":8005},
+   {"name":"JIRA","port":8080},
+   {"name":"Portainer","port":9000}   
+ ]
+}

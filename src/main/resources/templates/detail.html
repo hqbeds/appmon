@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <title>AppMon detail</title>
+ <div th:replace="/fragments/header :: header-css"/>
+</head>
+<body>
+ <div class="container">
+ <div class="starter-template">
+ <br/>
+ <table class="table table-bordered table-striped">
+ <thead> 
+  <tr>
+   <th>Time</th>
+   <th>Service</th>
+   <th>Status</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr th:if="${list.empty}">
+   <td colspan="3">Empty</td>
+  </tr>
+  <tr th:each="st:${list}">
+   <td th:text="${#temporals.format(st.date, 'yyyy-MM-dd HH:mm:ss')}">time</td>
+   <td th:text="${st.service.name}">tomgato</td>
+   <td th:text="${st.status}">up</td>
+  </tr>
+ </tbody>
+ </table>
+ <button type="button" class="btn btn-primary" onclick="self.close()">Close</button>
+ </div>
+ <br/>
+</div>
+<div th:replace="/fragments/footer :: footer"/>
+</body>
+</html>

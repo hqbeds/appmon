@@ -1,12 +1,12 @@
 package com.boaglio.appmon.dto;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.boaglio.appmon.util.RotateList;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Component
@@ -19,7 +19,7 @@ public class FullStats {
 	private Stats lastStats;
 
 	public FullStats() {
-		allStats = new ArrayList<Stats>();
+		allStats = new RotateList<Stats>();
 		lastStats = new Stats();
 	}
 

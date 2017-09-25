@@ -41,6 +41,7 @@ public class CheckEnvironment {
 
 	private static final int CHECK_IN_SECONDS = 10 * 1000;
 	private static final int TIMEOUT = 200;
+	private static final int DEFAULT_RETENTION_SIZE = 10;
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
@@ -55,10 +56,13 @@ public class CheckEnvironment {
 	@Scheduled(fixedRate = CHECK_IN_SECONDS)
 	public void checkEnvironment() throws InvalidDataDirectoryException,JsonParseException,JsonMappingException,IOException {
 		Config config = Config.getInstance();
-		System.out.println("Config = " + config);
+		if (dynamicConfig.isDebug()) {
+			System.out.println("Config = " + config);
+		}
 		if (config != null && config.getServices() == null) {
 			if (dynamicConfig.isDebug())
 				System.out.println(" AppMon data dir = " + dynamicConfig.getDataDiretory());
+
 			dataDirUtil.init();
 
 			if (dynamicConfig.isDebug()) {
@@ -87,8 +91,9 @@ public class CheckEnvironment {
 				System.exit(0);
 			}
 
-			if (dynamicConfig.isDebug())
+			if (dynamicConfig.isDebug()) {
 				System.out.println("JSON = " + configText);
+			}
 
 			config = mapper.readValue(configText,Config.class);
 
@@ -108,6 +113,11 @@ public class CheckEnvironment {
 				if (dynamicConfig.isDebug())
 					System.out.println("no services to monitor... wtf?");
 			}
+
+			if (config.getRetentionSize() == null) {
+				config.setRetentionSize(DEFAULT_RETENTION_SIZE);
+			}
+
 			Config.updateInstance(config);
 		}
 		// criar rotina para ler os servicos
@@ -116,29 +126,31 @@ public class CheckEnvironment {
 			for (com.boaglio.appmon.domain.Service service : config.getServices()) {
 				if (dynamicConfig.isDebug()) {
 					System.out.println("Checking " + service.getName() + " on port " + service.getPort());
-
-					final ExecutorService es = Executors.newFixedThreadPool(20);
-
-					Future<Boolean> portStatus = SocketUtil.portIsOpen(es,service.getPort(),TIMEOUT);
-					es.shutdown();
-
-					ServiceStatus serviceStatus = ServiceStatus.DOWN;
-					try {
-						if (portStatus.get()) {
-							serviceStatus = ServiceStatus.UP;
-						}
-					} catch (InterruptedException | ExecutionException e) {
-						e.printStackTrace();
-					}
-					services.add(new ServiceStats(service,serviceStatus));
 				}
+
+				final ExecutorService es = Executors.newFixedThreadPool(20);
+
+				Future<Boolean> portStatus = SocketUtil.portIsOpen(es,service.getPort(),TIMEOUT);
+				es.shutdown();
+
+				ServiceStatus serviceStatus = ServiceStatus.DOWN;
+				try {
+					if (portStatus.get()) {
+						serviceStatus = ServiceStatus.UP;
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					e.printStackTrace();
+				}
+				services.add(new ServiceStats(service,serviceStatus));
 
 			}
 		Stats stats = new Stats();
 		stats.setServiceStats(services);
 		fullStats.updateStats(stats);
 		// escrever os nos logs as metricas
-		System.out.println(stats);
+		if (dynamicConfig.isDebug()) {
+			System.out.println(stats);
+		}
 
 	}
 }

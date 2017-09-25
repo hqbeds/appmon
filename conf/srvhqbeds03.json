@@ -1,0 +1,30 @@
+{
+ "description":"srvhqbeds03", 
+ "debug":false,
+ "retentionSize":20,
+ "services":[
+   {"name":"Apache HTTP","port":80},
+   {"name":"Net","port":2288}, 
+   {"name":"Portainer","port":9000},
+   {"name":"Jenkins","port":9090},
+   {"name":"mariadb5","port":3300},
+   {"name":"hqbox1-mariadb","port":3301},      
+   {"name":"hqbox2-mariadb","port":3302},
+   {"name":"hqbox-greenhaven-mariadb","port":3303},
+   {"name":"hqbox-beiramar-mariadb","port":3304},      
+   {"name":"hqbox-bamboorio-mariadb","port":3305},
+   {"name":"apache-php5","port":11000},
+   {"name":"apache-php7","port":22000},      
+   {"name":"hqbox1-php","port":50001},
+   {"name":"hqbox2-php","port":50002},      
+   {"name":"hqbox-greenhaven-php","port":50003},
+   {"name":"hqbox-beiramar-php","port":50004},
+   {"name":"hqbox-bamboorio-php","port":50005},      
+   {"name":"phpmyadmin-mariadb5","port":60000},
+   {"name":"hqbox1-phpmyadmin","port":60001},
+   {"name":"hqbox2-phpmyadmin","port":60002},      
+   {"name":"hqbox-greenhaven-phpmyadmin","port":60003},
+   {"name":"hqbox-beiramar-phpmyadmin","port":60004},      
+   {"name":"hqbox-bamboorio-phpmyadmin","port":60005}
+ ]
+}

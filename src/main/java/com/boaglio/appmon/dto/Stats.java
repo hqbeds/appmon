@@ -1,12 +1,14 @@
 package com.boaglio.appmon.dto;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.boaglio.appmon.domain.FileSystem;
+import com.boaglio.appmon.util.RotateList;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Component
@@ -17,12 +19,24 @@ public class Stats implements Comparable<Stats> {
 		this.date = LocalDateTime.now();
 		this.fileSystem = fileSystem;
 		this.serviceStats = serviceStats;
+		try {
+			this.hostname = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Stats() {
 		this.date = LocalDateTime.now();
-		this.serviceStats = new ArrayList<ServiceStats>();
+		this.serviceStats = new RotateList<ServiceStats>();
+		try {
+			this.hostname = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
+
+	private String hostname;
 
 	private LocalDateTime date;
 
@@ -58,6 +72,10 @@ public class Stats implements Comparable<Stats> {
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+
+	public String getHostname() {
+		return hostname;
 	}
 
 	@Override
